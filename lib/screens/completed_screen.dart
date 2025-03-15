@@ -12,6 +12,7 @@ class CompletedScreen extends StatelessWidget {
     final completedTodos = todoProvider.completedTodos;
     
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

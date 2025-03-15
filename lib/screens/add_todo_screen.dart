@@ -19,12 +19,9 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   @override
   void initState() {
     super.initState();
-    // Ensure initial date/time is not in the past
     final now = DateTime.now();
     _selectedDate = now;
     _selectedTime = TimeOfDay.now();
-
-    // If the current minute is close to the hour end, add 1 hour to avoid immediate past time
     if (_selectedTime.minute >= 55) {
       _selectedTime = TimeOfDay(hour: (_selectedTime.hour + 1) % 24, minute: 0);
       _selectedDate = DateTime(
@@ -70,7 +67,6 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
       initialTime: _selectedTime,
     );
     if (picked != null && picked != _selectedTime) {
-      // Check if selected date is today and time is in the past
       final now = DateTime.now();
       final selectedDateTime = DateTime(
         _selectedDate.year,
@@ -79,8 +75,6 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
         picked.hour,
         picked.minute,
       );
-
-      // If date is today and time is in the past, show error
       if (_selectedDate.year == now.year &&
           _selectedDate.month == now.month &&
           _selectedDate.day == now.day &&
@@ -103,7 +97,6 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
 
   void _saveTodo() async {
     if (_formKey.currentState!.validate()) {
-      // Check if the selected date/time is in the past
       final now = DateTime.now();
       if (_selectedDate.isBefore(now)) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -113,18 +106,6 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
           ),
         );
         return;
-      }
-
-      // Check if notification time (10 minutes before) is in the past
-      final notificationTime = _selectedDate.subtract(const Duration(minutes: 10));
-      if (notificationTime.isBefore(now)) {
-        // Show warning but allow task creation
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Task created, but notification time is too soon'),
-            backgroundColor: Colors.orange,
-          ),
-        );
       }
 
       final todoProvider = Provider.of<TodoProvider>(context, listen: false);

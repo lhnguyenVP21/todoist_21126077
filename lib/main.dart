@@ -7,16 +7,11 @@ import '../services/notifications.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  // Set preferred orientations
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  
-  // Initialize notifications
   await NotificationService().initNotification();
-  
   runApp(const MyApp());
 }
 

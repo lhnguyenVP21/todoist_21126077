@@ -27,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // Reschedule all notifications when app starts
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<TodoProvider>(context, listen: false).rescheduleAllNotifications();
     });
